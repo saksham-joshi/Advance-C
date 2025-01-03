@@ -6,11 +6,11 @@
 - **Step 1**: Copy this whole folder to your project's directory.
 - **Step 2**: Include 'String.h' file in your code like this:
 ```c
-#include "String_imp/String.h"
+#include "Modern_String/Modern_String.h"
 ```
 - **Step 3**: To create a String, below is an example:
 ```c
-#include "String_imp/String.h"
+#include "Modern_String/Modern_String.h"
 
 int main(void)
 {
