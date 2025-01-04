@@ -10,19 +10,23 @@ Master the C language to such an extent that writing highly complex systems feel
         Writing super clean code.
                      +
       Writing highly optimized code.
+                     +
+      Writing easy to maintain code.
 ````
 
 ### Coding Convention
 ```
-Functions - Camel case
-Function Parameters - small case starting with '__'
+Functions - camelCase
+Function Parameters - smallcase starting with '__'
 
 Local Variables - Lower case
 Global Variables - Upper case
 
-typedef/types - Pascal case
+typedef/structs/types - PascalCase
 
-File names - Capitalized
+struct members - smallcase starting with underscore
+
+File names - Capitalized seperated by underscore
 ```
 
 ### URLs
