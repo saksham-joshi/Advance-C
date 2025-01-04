@@ -1,10 +1,12 @@
-#include<stdio.h>
+#include "Pattern_header.h"
+
+#define CHAR_TO_PRINT '*'
 
 inline static void rightAngledTriangle(const unsigned short int __no_of_lines)
 {
     for(unsigned short int i = 1 ; i <= __no_of_lines ; ++i)
     {
-        for(unsigned short int j = 0 ; j < i ; ++j) printf("* ");
+        printChar("%c ", CHAR_TO_PRINT , i);
         
         puts("");
     }
@@ -14,10 +16,10 @@ inline static void rightAngledTriangle(const unsigned short int __no_of_lines)
     for(unsigned short int i = 1 ; i <= __no_of_lines ; ++i)
     {
         // printing spaces
-        for(unsigned short int j = 0 ; j < __no_of_lines - i ; ++j) printf("  ");
+        printSpaces((__no_of_lines-i)*2);
         
         // printing stars
-        for(unsigned short int j = 0 ; j < i ; ++j) printf("* ");
+        printChar("%c ", CHAR_TO_PRINT, i);
 
         puts("");
     }

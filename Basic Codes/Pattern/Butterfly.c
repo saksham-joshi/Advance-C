@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "Pattern_header.h"
 
 /*
 
@@ -31,6 +31,9 @@ if the given number is EVEN ....
 
 */
 
+#define CHAR_TO_PRINT '*'
+
+
 inline void butterfly(const unsigned short int __width)
 {
 
@@ -41,16 +44,11 @@ inline void butterfly(const unsigned short int __width)
     // printing the upper portion
     for(unsigned short int i = 1 ; i <= (height/2) ; ++i)
     {
-        // printing the initial stars
-        for(unsigned short int j = 0 ; j < i ; ++j) printf("* ");
+        printChar("%c ", CHAR_TO_PRINT, i);
 
-        int space_count = (signed int)__width - (signed int) (i*2);
+        printConstChar("  ", ((signed int)__width - (signed int) (i*2)));
 
-        // printing the spaces
-        for(unsigned short int j = 0 ; j < space_count ; ++j) printf("  ");
-
-        // printing the ending stars
-        for(unsigned short int j = 0 ; j < i ; ++j) printf("* ");
+        printChar("%c ", CHAR_TO_PRINT, i);
 
         puts("");
     }
@@ -69,11 +67,11 @@ inline void butterfly(const unsigned short int __width)
     {
         int star_count = (signed)(__width/2)- (signed)i + (__width % 2 == 0 ? 0 : 1);
         
-        for(unsigned short int j = 0 ; j < star_count ; ++j ) printf("* ");
+        printChar("%c ", CHAR_TO_PRINT , star_count );
 
-        for(unsigned short int j = 0 ; j < space_count ; ++j) printf("  ");
+        printConstChar("  " , space_count);
 
-        for(unsigned short int j = 0 ; j < star_count ; ++j ) printf("* ");
+        printChar("%c ", CHAR_TO_PRINT , star_count );
 
         puts("");
 

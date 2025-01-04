@@ -1,21 +1,23 @@
-#include<stdio.h>
+#include "Pattern_header.h"
+
+#define CHAR_TO_PRINT '+'
 
 inline void hollowRectangle(const unsigned short int __length , const unsigned short int __breadth)
 {
-    for(unsigned short int i = 0 ; i < __breadth ; ++i) printf("+  ");
+    printChar("%c  ", CHAR_TO_PRINT , __breadth);
 
     puts("");
 
     for(unsigned short int i = 0 ; i < __length ; ++i)
     {
-        printf("+  ");
+        printf("%c  ", CHAR_TO_PRINT);
 
-        for(unsigned short int j = 0 ; j < __breadth - 2 ; ++j) printf("   ");
+        printConstChar("   ", __breadth - 2);
 
-        printf("+\n");
+        printf("%c\n", CHAR_TO_PRINT);
     }
 
-    for(unsigned short int i = 0 ; i < __breadth ; ++i) printf("+  ");
+    printChar("%c  ", CHAR_TO_PRINT, __breadth);
 }
 
 int main(void)

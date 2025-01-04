@@ -1,13 +1,16 @@
-#include<stdio.h>
+#include "Pattern_header.h"
+
+
+#define CHAR_TO_PRINT '>'
 
 inline void rhombus(const unsigned short int __no_of_lines)
 {
     // printing the rhombus inclining to the left side
     for(unsigned short int i = 0 ; i < __no_of_lines ; ++i)
     {
-        for(unsigned short int j = 0 ; j < i ; ++j) printf("   ");
+        printSpaces(i*3);
 
-        for(unsigned short int j = 0 ; j < __no_of_lines ; ++j) printf(">  ");
+        printChar("%c  ", CHAR_TO_PRINT , __no_of_lines);
 
         puts("");
     }
@@ -15,9 +18,9 @@ inline void rhombus(const unsigned short int __no_of_lines)
     // printing the rhombus inclining to the right side
     for(unsigned short int i = 0 ; i < __no_of_lines ; ++i)
     {
-        for(unsigned short int j = 0 ; j < __no_of_lines-i ; ++j) printf("   ");
+        printSpaces((__no_of_lines-i)*3);
 
-        for(unsigned short int j = 0 ; j < __no_of_lines ; ++j) printf(">  ");
+        printChar("%c  ", CHAR_TO_PRINT, __no_of_lines);
 
         puts("");
     }
