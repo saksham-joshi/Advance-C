@@ -36,7 +36,7 @@ typedef char ModernStringBool;
 typedef unsigned long long ULongLong;
 
 /*
- Don't even dare to create its instance, instead call makeEmptyString or makeString function
+ Don't even dare to create its instance, instead call makeEmptyString, makeReservedString or makeString function
 */
 typedef struct
 {
