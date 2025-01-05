@@ -1,3 +1,8 @@
+#pragma once
+
+#ifndef _INPUT_STRING_H_
+#define _INPUT_STRING_H_
+
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -23,10 +28,14 @@ inline static char* copyDataAndFree(char* __str, unsigned long __length)
     return copy;
 }
 
-typedef struct {
+typedef struct 
+{
     char* str;
+
     unsigned long len;
+
 } SimpleStringStore;
+
 
 inline static SimpleStringStore getDataFromConsole(unsigned long __buffer_size, const char __terminator)
 {
@@ -70,6 +79,8 @@ inline static SimpleStringStore getLine(const char* __message)
     printf("%s",__message);
     return getDataFromConsole(8, '\n');
 }
+
+#endif
 
 // ================== A Sample of how to get input ======================= //
 // int main()
