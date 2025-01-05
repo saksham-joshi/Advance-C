@@ -21,8 +21,6 @@
 
 /*==| Implementation of previously declared functions |==*/
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wincompatible-pointer-types"
 /*
  @param __obj: pointer to instance of struct ModernString
  @param __str: a const char* which is added to the end of __obj._str
@@ -32,9 +30,8 @@
 */
 inline void appendString(MstrPtr __obj , const char* __str)
 {
-    while(*__str) pushBackString(&__obj, *__str++);
+    while(*__str) pushBackString(__obj, *__str++);
 }
-#pragma clang diagnostic pop
 
 /*
  @param __obj: pointer to instance of struct ModernString
@@ -93,7 +90,7 @@ inline void clearString(MstrPtr __obj)
 */
 inline ModernString copyString(MstrPtr __obj)
 {
-    ModernString copy;
+    ModernString copy = {0};
     copy._len = __obj->_len;
     copy._allocated = __obj->_len + 1 ;
 
@@ -102,7 +99,7 @@ inline ModernString copyString(MstrPtr __obj)
     // if enough memory is not allocated ...
     if(!copy._str){
         errno = MODERN_STRING_ERROR_MEMORY_NOT_AVAILABLE;
-        ModernString temp;
+        ModernString temp = {0};
         temp._len = temp._allocated = 0;
         temp._str = NULL;
         return temp;
@@ -321,7 +318,7 @@ inline ULongLong lenString(MstrPtr __obj)
 */
 inline ModernString makeString(const char* __str)
 {
-    ModernString output;
+    ModernString output = {0};
 
     output._allocated = 8;
     output._str = (char*) calloc(output._allocated, sizeof(char));
@@ -337,11 +334,37 @@ inline ModernString makeString(const char* __str)
 */
 inline ModernString makeEmptyString(void)
 {
-    ModernString obj;
+    ModernString obj = {0};
+
     obj._str = (char*) calloc(1 , sizeof(char));
     obj._allocated = 1;
     obj._len = 0;
     return obj;
+}
+
+/*
+   Reserves a memory in advance while creating the Instance.
+*/
+inline ModernString makeReservedString(unsigned long __allocation)
+{
+    // 0 bytes of memory cannot be allocated
+    __allocation += (__allocation == 0) ? 1 : 0;
+
+    ModernString obj = {0};
+
+    obj._str = (char*) calloc(__allocation , sizeof(char));
+
+    if(!obj._str)
+    {
+        errno = MODERN_STRING_ERROR_MEMORY_NOT_AVAILABLE;
+        return obj;
+    }
+
+    *obj._str = MODERN_STRING_NULL_TERMINATOR;
+    obj._len = 0;
+    obj._allocated = __allocation;
+    return obj;
+
 }
 
 /*
@@ -505,8 +528,8 @@ inline ModernString subString(MstrPtr __obj , ULongLong __start , ULongLong __en
 {
     if(__start < __obj->_len && __end <= __obj->_len && __start < __end)
     {
-        ModernString output;
-        //output._len = (__start < __end) ? __end - __start : 0;
+        ModernString output = {0};
+
         output._len = __end - __start;
         output._allocated = output._len + 1;
 
@@ -566,7 +589,7 @@ inline ModernString takeInputString(const char* __message)
     printf("%s", __message);
     SimpleStringStore obj = getDataFromConsole(16, '\n');
 
-    ModernString output;
+    ModernString output = {0};
     output._allocated = obj.allocated_buffer_size;
     output._len = obj.len;
     output._str = obj.str;
@@ -599,3 +622,6 @@ inline void trimString(MstrPtr __obj)
     }
     *writing_iterator = MODERN_STRING_NULL_TERMINATOR;
 }
+
+
+//#pragma clang diagnostic pop
