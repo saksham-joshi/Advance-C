@@ -2,6 +2,7 @@
 
 #include "Modern_String_base.h"
 
+
 /*==| Forward declaration of String functions |==*/
 
 inline void appendString(MstrPtr, const char*);
@@ -29,6 +30,7 @@ inline ModernStringBool isUpperCaseString(MstrPtr);
 inline ULongLong lenString(MstrPtr);
 inline ModernString makeString(const char*);
 inline ModernString makeEmptyString();
+inline ModernString makeReservedString(unsigned long);
 
 inline char popBackString(MstrPtr);
 inline char popFrontString(MstrPtr);
