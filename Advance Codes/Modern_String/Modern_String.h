@@ -168,7 +168,7 @@ inline void deleteCharString(MstrPtr __obj, const ULongLong __index)
 
 /*
  @param __obj: pointer to instance of struct ModernString
- @param __from: position from where deletion which starts 
+ @param __from: position from where deletion will start
  @param __to : position to which deletion will end.
  
  Removes the character at the given range.
@@ -672,6 +672,3 @@ inline void trimString(MstrPtr __obj)
     }
     *writing_iterator = MODERN_STRING_NULL_TERMINATOR;
 }
-
-
-//#pragma clang diagnostic pop
