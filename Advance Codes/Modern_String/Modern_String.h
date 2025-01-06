@@ -518,6 +518,44 @@ inline void sortString(MstrPtr __obj)
 
 }
 
+inline ModernStringStats statsString(MstrPtr __obj)
+{
+    const char* iterator = __obj->_str;
+
+    ModernStringStats stat_object = {0};
+
+    while(*iterator)
+    {
+        if(*iterator >= '0' && *iterator <= '9') ++stat_object._digits;
+
+        else if(*iterator == ' ') ++stat_object._spaces;
+
+        else if(*iterator == '\n') ++stat_object._newlines;
+
+        else if(*iterator == '[') ++stat_object._brackets._square._open;
+        else if(*iterator == ']') ++stat_object._brackets._square._close;
+
+        else if(*iterator == '(') ++stat_object._brackets._round._open;
+        else if(*iterator == ')') ++stat_object._brackets._round._close;
+
+        else if(*iterator == '{') ++stat_object._brackets._curly._open;
+        else if(*iterator == '}') ++stat_object._brackets._curly._close;
+
+        else if(*iterator == 'A' || *iterator == 'E' || *iterator == 'I' || *iterator == 'O' || *iterator == 'U') ++stat_object._alphabets._vowels._capital;
+        else if(*iterator == 'a' || *iterator == 'e' || *iterator == 'i' || *iterator == 'o' || *iterator == 'u') ++stat_object._alphabets._vowels._small;
+
+        else if(*iterator >= 'a' && *iterator <= 'z') ++stat_object._alphabets._consonants._small;
+
+        else if(*iterator >= 'A' && *iterator <= 'Z') ++stat_object._alphabets._consonants._capital;
+        
+        else ++stat_object._misc;
+
+        ++iterator;
+    }
+
+    return stat_object;
+}
+
 /*
  Returns a sub part of the given string.
  Example- "0123456789"
