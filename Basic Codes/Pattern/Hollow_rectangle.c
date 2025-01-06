@@ -2,6 +2,16 @@
 
 #define CHAR_TO_PRINT '+'
 
+
+/*
+
++ + + + + + + + + + + + +
++                       +
++                       +
++                       +
++ + + + + + + + + + + + +
+
+*/
 inline void hollowRectangle(const unsigned short int __length , const unsigned short int __breadth)
 {
     printChar("%c  ", CHAR_TO_PRINT , __breadth);
