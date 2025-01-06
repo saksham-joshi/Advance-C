@@ -3,6 +3,23 @@
 
 #define CHAR_TO_PRINT '>'
 
+
+/*
+
+> > > > > > > >
+  > > > > > > > >
+    > > > > > > > >
+      > > > > > > > >
+        > > > > > > > >
+
+        > > > > > > > >
+      > > > > > > > >
+    > > > > > > > >
+  > > > > > > > >
+> > > > > > > >
+
+*/
+
 inline void rhombus(const unsigned short int __no_of_lines)
 {
     // printing the rhombus inclining to the left side
