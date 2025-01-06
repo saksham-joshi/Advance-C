@@ -43,6 +43,7 @@ inline void reverseString(MstrPtr);
 inline ULongLong rindexString(MstrPtr, char);
 
 inline void sortString(MstrPtr); //==
+inline ModernStringStats statsString(MstrPtr);
 inline ModernString subString(MstrPtr, ULongLong, ULongLong);
 
 inline void toLowerCaseString(MstrPtr);
