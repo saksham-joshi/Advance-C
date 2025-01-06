@@ -518,6 +518,18 @@ inline void sortString(MstrPtr __obj)
 
 }
 
+/*
+ This function iterates through the whole string and returns ModernStringStats instance.
+ It calculates:
+     1. No. of vowel in capital and in small letter
+     2. No. of consonant in capital and small letter
+     3. No. of digits
+     4. No. of spaces
+     5. No. of newlines
+     6. No. of opening and closing curly brackets.
+     7. No. of opening and closing round brackets.
+     8. No. of opening and closing square brackets.
+*/
 inline ModernStringStats statsString(MstrPtr __obj)
 {
     const char* iterator = __obj->_str;
