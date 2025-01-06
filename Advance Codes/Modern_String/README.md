@@ -3,7 +3,7 @@
 - It provides several optimized functions written in C.
 
 ## How to use it?
-- **Step 1**: Copy this whole folder to your project's directory.
+- **Step 1**: Copy this whole repo to your project's directory.
 - **Step 2**: Include 'String.h' file in your code like this:
 ```c
 #include "Modern_String/Modern_String.h"
