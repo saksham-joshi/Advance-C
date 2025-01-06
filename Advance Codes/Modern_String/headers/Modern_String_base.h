@@ -51,6 +51,53 @@ typedef struct
 
 typedef ModernString* MstrPtr;
 
+
+typedef struct 
+{
+    struct Alphabets
+    {
+        struct Vowels{
+            unsigned long _capital;
+            unsigned long _small;
+        } _vowels ;
+
+        struct Consonants{
+            unsigned long _capital;
+            unsigned long _small;
+        } _consonants;
+
+    } _alphabets;
+
+    unsigned long _digits;
+    unsigned long _spaces;
+    unsigned long _newlines;
+    unsigned long _misc;
+
+    struct Brackets
+    {
+        struct CurlyBrackets
+        {
+            unsigned long _open;
+            unsigned long _close;
+        } _curly;
+        
+        struct RoundBrackets
+        {
+            unsigned long _open;
+            unsigned long _close;
+        } _round;
+
+        struct SquareBrackets
+        {
+            unsigned long _open;
+            unsigned long _close;
+        } _square;
+
+    } _brackets;
+
+} ModernStringStats;
+
+
 #define MODERN_STRING_ERROR_INDEX_OUT_OF_BOUND 101
 #define MODERN_STRING_ERROR_MEMORY_NOT_AVAILABLE ENOMEM
 
