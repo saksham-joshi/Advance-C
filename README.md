@@ -19,8 +19,10 @@ Master the C language to such an extent that writing highly complex systems feel
 Functions - camelCase
 Function Parameters - smallcase starting with '__'
 
-Local Variables - Lower case
-Global Variables - Upper case
+Local Variables - lowercase
+Global Variables - UPPER_CASE
+
+constants - UPPER_CASE
 
 typedef/structs/types - PascalCase
 
