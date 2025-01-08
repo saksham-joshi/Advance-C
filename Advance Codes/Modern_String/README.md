@@ -1,6 +1,9 @@
-# Modern String in C
-- This is a package which contains implementation of modern String in C language. 
+# 🔠 Modern String in C
+- This is a package which contains implementation of string in C language. 
 - It provides several optimized functions written in C.
+- It is simple and easy to use.
+- It matches the speed and efficiency of **'std::string'** from C++.
+- Takes only 24 bytes of memory in x64 architecture.
 
 ## How to use it?
 - **Step 1**: Copy this whole repo to your project's directory.
@@ -18,10 +21,27 @@ int main(void)
 
     printString(&str);
 
-    destroyString(str); // do it or face memory leak
+    destroyString(&str); // destruction is important
+
+    return 0;
 }
 ```
 #### **NOTE**: Don't create instance of '**struct String**' directly. Instead, call '**makeString()**' functions which is as fast as creating an instance directly and it performs additional settings to make your string work stable.
+
+## 🎹 Coding Convention
+```
+Functions - camelCase ending with word 'String'.
+Function Parameters - smallcase starting with '__'
+
+Local Variables - lowercase
+Global Variables/constants - UPPER_CASE
+
+typedef/structs/types - PascalCase
+
+struct members - smallcase starting with underscore
+
+File names - Capitalized seperated by underscore
+```
 
 ## 🔗 Developer Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://sakshamjoshi.netlify.app/)
