@@ -1,7 +1,7 @@
 
 /******************************************************************************
  * Project Name: C Modern String
- * File Name: Input_string.h
+ * File Name: Modern_String_utility.h
  * Author: Saksham Joshi
  * Email: social.sakshamjoshi@gmail.com
  *
@@ -15,12 +15,55 @@
  *
  * Copyright (c) [2025] Saksham Joshi. All rights reserved.
  *****************************************************************************/
+#include "Modern_String_base.h"
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<errno.h>
+typedef struct 
+{
+    struct Alphabets
+    {
+        struct Vowels{
+            unsigned long _capital;
+            unsigned long _small;
+        } _vowels ;
 
-inline char* copyDataAndFree(char* __str, unsigned long __length)
+        struct Consonants{
+            unsigned long _capital;
+            unsigned long _small;
+        } _consonants;
+
+    } _alphabets;
+
+    unsigned long _digits;
+    unsigned long _spaces;
+    unsigned long _newlines;
+    unsigned long _misc;
+
+    struct Brackets
+    {
+        struct CurlyBrackets
+        {
+            unsigned long _open;
+            unsigned long _close;
+        } _curly;
+        
+        struct RoundBrackets
+        {
+            unsigned long _open;
+            unsigned long _close;
+        } _round;
+
+        struct SquareBrackets
+        {
+            unsigned long _open;
+            unsigned long _close;
+        } _square;
+
+    } _brackets;
+
+} ModernStringStats;
+
+
+inline char* ModernStringUtil_copyDataAndFree(char* __str, unsigned long __length)
 {
     char* original = __str;
     char *copy = (char*) calloc(__length*2, sizeof(char));
@@ -48,7 +91,7 @@ typedef struct {
     unsigned long allocated_buffer_size;
 } SimpleStringStore;
 
-inline SimpleStringStore getDataFromConsole(unsigned long __buffer_size, const char __terminator)
+inline SimpleStringStore ModernStringUtil_getDataFromConsole(unsigned long __buffer_size, const char __terminator)
 {
     char *str = (char*) calloc(__buffer_size, sizeof(char));
 
@@ -62,7 +105,7 @@ inline SimpleStringStore getDataFromConsole(unsigned long __buffer_size, const c
     {
         if(index == __buffer_size)
         {
-            str = copyDataAndFree(str, index);
+            str = ModernStringUtil_copyDataAndFree(str, index);
             iterator = str + index;
             __buffer_size *= 2;
         }
@@ -86,20 +129,15 @@ inline SimpleStringStore getDataFromConsole(unsigned long __buffer_size, const c
     return obj;
 }
 
-inline SimpleStringStore getLine(const char* __message)
+inline void ModernStringUtil_incrementIterators(const char** __iter1 , const char** __iter2)
 {
-    printf("%s",__message);
-    return getDataFromConsole(8, '\n');
+    while(**__iter1 && **__iter2 && **__iter1 == **__iter2)
+    {
+        ++(*__iter1);
+        ++(*__iter2);
+    }
 }
 
-// ================== A Sample of how to get input ======================= //
-// int main()
-// {
-//     SimpleStringStore obj = getLine("\n ==> Enter a number :- ");
 
-//     printf("\n Output = '%s'\n =| Length = %lu", obj.str , obj.len);
 
-//     free(obj.str);
 
-//     return 0;
-// }

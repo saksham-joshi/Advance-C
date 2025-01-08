@@ -1,6 +1,6 @@
 
 
-#include "Modern_String_base.h"
+#include "Modern_String_utility.h"
 
 
 /*==| Forward declaration of String functions |==*/
@@ -10,6 +10,8 @@ inline char atString(MstrPtr, ULongLong);
 
 inline void capitalizeString(MstrPtr);
 inline void clearString(MstrPtr);
+inline signed short int compareString(MstrPtr , MstrPtr);
+inline signed short int compareConstCharWithString(MstrPtr , const char*);
 inline ModernString copyString(MstrPtr);
 inline ULongLong countString(MstrPtr, char);
 
@@ -23,7 +25,20 @@ inline ModernStringBool isAlphabetString(MstrPtr);
 inline ModernStringBool isAlphaNumericString(MstrPtr);
 inline ModernStringBool isNumericString(MstrPtr);
 inline ModernStringBool isEmptyString(MstrPtr);
+
 inline ModernStringBool isEqualString(MstrPtr, MstrPtr);
+inline ModernStringBool isEqualToConstChar(MstrPtr, const char*);
+
+inline ModernStringBool isLessThanString(MstrPtr, MstrPtr);          
+inline ModernStringBool isLessThanConstChar(MstrPtr , const char*);      
+inline ModernStringBool isLessThanEqualToString(MstrPtr, MstrPtr);     
+inline ModernStringBool isLessThanEqualToConstChar(MstrPtr , const char*); 
+
+inline ModernStringBool isMoreThanString(MstrPtr, MstrPtr);          
+inline ModernStringBool isMoreThanConstChar(MstrPtr , const char*);      
+inline ModernStringBool isMoreThanEqualToString(MstrPtr, MstrPtr);     
+inline ModernStringBool isMoreThanEqualToConstChar(MstrPtr , const char*);
+
 inline ModernStringBool isLowerCaseString(MstrPtr);
 inline ModernStringBool isUpperCaseString(MstrPtr);
 

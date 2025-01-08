@@ -22,16 +22,17 @@
 #ifndef _STRING_H_
 #define _STRING_H_
 
-
-#include "Input_string.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
 #include<ctype.h>
 
 #define MODERN_STRING_MAX_STRING_LEN SIZE_MAX
 #define MODERN_STRING_NULL_TERMINATOR '\0'
 
 typedef char ModernStringBool;
-#define MODERN_STRING_TRUE (ModernStringBool) '1'
-#define MODERN_STRING_FALSE (ModernStringBool) '\0'
+#define MODERN_STRING_TRUE (ModernStringBool) 1
+#define MODERN_STRING_FALSE (ModernStringBool) 0
 
 typedef unsigned long long ULongLong;
 
@@ -50,53 +51,6 @@ typedef struct
 } ModernString;
 
 typedef ModernString* MstrPtr;
-
-
-typedef struct 
-{
-    struct Alphabets
-    {
-        struct Vowels{
-            unsigned long _capital;
-            unsigned long _small;
-        } _vowels ;
-
-        struct Consonants{
-            unsigned long _capital;
-            unsigned long _small;
-        } _consonants;
-
-    } _alphabets;
-
-    unsigned long _digits;
-    unsigned long _spaces;
-    unsigned long _newlines;
-    unsigned long _misc;
-
-    struct Brackets
-    {
-        struct CurlyBrackets
-        {
-            unsigned long _open;
-            unsigned long _close;
-        } _curly;
-        
-        struct RoundBrackets
-        {
-            unsigned long _open;
-            unsigned long _close;
-        } _round;
-
-        struct SquareBrackets
-        {
-            unsigned long _open;
-            unsigned long _close;
-        } _square;
-
-    } _brackets;
-
-} ModernStringStats;
-
 
 #define MODERN_STRING_ERROR_INDEX_OUT_OF_BOUND 101
 #define MODERN_STRING_ERROR_MEMORY_NOT_AVAILABLE ENOMEM

@@ -83,6 +83,34 @@ inline void clearString(MstrPtr __obj)
 }
 
 /*
+  Returns :
+   -1 : if __obj1 is larger than __obj2
+    0 : if both strings are equal
+    1 : if __obj2 is larger than __obj1
+*/
+inline signed short int compareString(MstrPtr __obj1 , MstrPtr __obj2)
+{
+    return compareConstCharWithString(__obj1 , __obj2->_str);
+}
+
+/*
+  Returns :
+   -1 : if __obj1 is larger than __str
+    0 : if both strings are equal
+    1 : if __str is larger than __obj1
+*/
+inline signed short int compareConstCharWithString(MstrPtr __obj , const char* __str)
+{
+    const char* iter1 = __obj->_str;
+
+    ModernStringUtil_incrementIterators(&iter1 , &__str);
+
+    if (*iter1 == *__str) return 0;
+    else if(*iter1 < *__str) return 1;
+    return -1;
+}
+
+/*
  @param __obj: pointer to instance of struct ModernString
  
  Creates a copy of all the characters but does not copies
@@ -258,7 +286,7 @@ inline ModernStringBool isNumericString(MstrPtr __obj)
 /* Checks whether the given string is empty or not */
 inline ModernStringBool isEmptyString(MstrPtr __obj)
 {
-    return (__obj->_len == 0) ? MODERN_STRING_TRUE : MODERN_STRING_FALSE;
+    return (__obj->_len == 0);
 }
 
 /* Checks if the given string is equal or not*/
@@ -269,15 +297,102 @@ inline ModernStringBool isEqualString(MstrPtr __obj1 , MstrPtr __obj2)
     const char* iter1 = __obj1->_str;
     const char* iter2 = __obj2->_str;
 
-    while(*iter1)
-    {
-        if(*iter1 != *iter2) return MODERN_STRING_FALSE;
-        ++iter1;
-        ++iter2;
-    }
+    ModernStringUtil_incrementIterators(&iter1 , &iter2);
 
-    return MODERN_STRING_TRUE;
+    return *iter1 == *iter2;
 
+}
+
+/* Checks if the ModernString is equal to const char* or not!*/
+inline ModernStringBool isEqualToConstChar(MstrPtr __obj, const char* __str)
+{
+    const char* iterator = __obj->_str;
+
+    ModernStringUtil_incrementIterators(&iterator , &__str);
+
+    return *iterator == *__str ;
+}
+
+/* Checks if the ModernString is less than the other ModernString or not */
+inline ModernStringBool isLessThanString(MstrPtr __left, MstrPtr __right)
+{
+    const char* left_iterator = __left->_str;
+    const char* right_iterator = __right->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &right_iterator);
+
+    return *left_iterator < *right_iterator;
+
+}
+
+/* Checks if the ModernString is less than or equal to  */
+inline ModernStringBool isLessThanConstChar(MstrPtr __left, const char* __right)
+{
+    const char* left_iterator = __left->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &__right);
+
+    return *left_iterator < *__right;
+}
+
+inline ModernStringBool isLessThanEqualToString(MstrPtr __left, MstrPtr __right)
+{
+    const char* left_iterator = __left->_str;
+    const char* right_iterator = __right->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &right_iterator);
+
+    return *left_iterator <= *right_iterator;
+}
+
+inline ModernStringBool isLessThanEqualToConstChar(MstrPtr __left, const char* __right)
+{
+    const char* left_iterator = __left->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &__right);
+
+    return *left_iterator <= *__right;
+}
+inline ModernStringBool isMoreThanString(MstrPtr __left, MstrPtr __right)
+{
+    const char* left_iterator = __left->_str;
+    const char* right_iterator = __right->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &right_iterator);
+
+    return *left_iterator > *right_iterator;
+}
+inline ModernStringBool isMoreThanConstChar(MstrPtr __left, const char* __right)
+{
+    const char* left_iterator = __left->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &__right);
+
+    return *left_iterator > *__right;
+}
+
+/* Equivalent to __left >= __right 
+ 
+  This function returns 1 if the 
+*/
+inline ModernStringBool isMoreThanEqualToString(MstrPtr __left, MstrPtr __right)
+{
+    const char* left_iterator = __left->_str;
+    const char* right_iterator = __right->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &right_iterator);
+
+    return *left_iterator >= *right_iterator;
+}
+
+
+inline ModernStringBool isMoreThanEqualToConstChar(MstrPtr __left, const char* __right)
+{
+    const char* left_iterator = __left->_str;
+
+    ModernStringUtil_incrementIterators(&left_iterator , &__right);
+
+    return *left_iterator >= *__right;
 }
 
 /* Checks whether the given string is in lower case or not. */
@@ -637,7 +752,7 @@ inline void toUpperCaseString(MstrPtr __obj)
 inline ModernString takeInputString(const char* __message)
 {
     printf("%s", __message);
-    SimpleStringStore obj = getDataFromConsole(16, '\n');
+    SimpleStringStore obj = ModernStringUtil_getDataFromConsole(16, '\n');
 
     ModernString output = {0};
     output._allocated = obj.allocated_buffer_size;
