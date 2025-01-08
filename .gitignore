@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# IDE files
+*.vscode
+
+# user files
+experi.c
+
