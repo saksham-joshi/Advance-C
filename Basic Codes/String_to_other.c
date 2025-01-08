@@ -48,7 +48,6 @@ inline static double stringToDouble(const char* __str)
     if(errno) return 0;
 
     // #- Now solving after decimal part ...
-
     if(*iterator == '.') ++iterator;
 
     double ten = 10;
@@ -63,6 +62,7 @@ inline static double stringToDouble(const char* __str)
             continue;
         }
         errno = TYPE_CONVERSION_ERROR;
+
         break;
     }
 
