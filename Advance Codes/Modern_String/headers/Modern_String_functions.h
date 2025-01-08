@@ -2,7 +2,6 @@
 
 #include "Modern_String_utility.h"
 
-
 /*==| Forward declaration of String functions |==*/
 
 inline void appendString(MstrPtr, const char*);
