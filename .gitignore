@@ -55,5 +55,5 @@ dkms.conf
 *.vscode
 
 # user files
-experi.c
+experi.*
 
