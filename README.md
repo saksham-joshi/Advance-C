@@ -25,10 +25,14 @@ Master the C language to such an extent that writing highly complex systems feel
 ### 🎹 Coding Convention
 ```
 Functions - camelCase
+
 Function Parameters - smallcase starting with '__'
 
 Local Variables - lowercase
+
 Global Variables/constants - UPPER_CASE
+
+Global Variables/Non-constants - UPPER_CASE ending with '__'
 
 typedef/structs/types - PascalCase
 
