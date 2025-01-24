@@ -1,67 +1,13 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<errno.h>
-
-typedef int NodeData_t;
-
-struct Node{
-    NodeData_t _data;
-    struct Node* _next;
-};
-
-#if !defined(NodeData_t)
-        #if NodeData_t == int
-            #define FORMAT_SPECIFIER "%d"
-        #elif NodeData_t == long
-            #define FORMAT_SPECIFIER "%ld"
-        #elif NodeData_t == long long
-            #define FORMAT_SPECIFIER "%lld"
-        #elif NodeData_t == unsigned long long
-            #define FORMAT_SPECIFIER "%llu"
-        #elif NodeData_t == float
-            #define FORMAT_SPECIFIER "%f"
-        #elif NodeData_t == char
-            #define FORMAT_SPECIFIER "%c"
-        #elif NodeData_t == double
-            #define FORMAT_SPECIFIER "%lf"
-        #else
-            #define FORMAT_SPECIFIER "%s"
-        #endif
-    #else
-        #error "You have to define 'NodeData_t to work more on Linked List!"
-#endif
-
-#define SIZEOF_NODE sizeof(struct Node)
-
-typedef struct Node* NodePtr;
+#include "Base_LL.h"
 
 struct LinkedList {
     size_t _len;
-    NodePtr _head;
-    NodePtr _tail;
+    NodePtr_t _head;
+    NodePtr_t _tail;
 };
 
 typedef struct LinkedList* LLPtr;
 
-inline void Utility_destroyRecursively(NodePtr __ptr)
-{
-    if( ! __ptr->_next ) return;
-
-    Utility_destroyRecursively(__ptr->_next);
-
-    free(__ptr);
-}
-
-inline NodeData_t getInput(const char* __str)
-{
-    printf("%s", __str);
-
-    NodeData_t value;
-
-    scanf_s(FORMAT_SPECIFIER, &value);
-
-    return value;
-}
 
 inline void deleteFrontNode(LLPtr __obj)
 {
@@ -75,7 +21,7 @@ inline void deleteFrontNode(LLPtr __obj)
     }
     else
     {
-        NodePtr temp = __obj->_head;
+        NodePtr_t temp = __obj->_head;
         __obj->_head = __obj->_head->_next;
         --__obj->_len;
         free(temp);
@@ -94,7 +40,7 @@ inline void deleteBackNode(LLPtr __obj)
     }
     else
     {
-        NodePtr iterator = __obj->_head;
+        NodePtr_t iterator = __obj->_head;
 
         while(iterator->_next != __obj->_tail) iterator = iterator->_next;
 
@@ -136,21 +82,21 @@ inline void printLinkedList(LLPtr __obj)
 
     printf("[ ");
 
-    NodePtr iterator = __obj->_head;
+    NodePtr_t iterator = __obj->_head;
 
     while(iterator->_next)
     {
-        printf(FORMAT_SPECIFIER ", ", iterator->_data);
+        printf(FORMAT_SPECIFIER_LINKED_LIST ", ", iterator->_data);
         iterator = iterator->_next;
     }
 
-    printf( FORMAT_SPECIFIER " ]", iterator->_data);
+    printf( FORMAT_SPECIFIER_LINKED_LIST " ]", iterator->_data);
 
 }
 
 inline void pushBackNode(LLPtr __obj, NodeData_t __value)
 {
-    NodePtr temp = (NodePtr) malloc(SIZEOF_NODE);
+    NodePtr_t temp = (NodePtr_t) malloc(SIZEOF_NODE);
 
     if( ! temp ) 
     {
@@ -177,7 +123,7 @@ inline void pushBackNode(LLPtr __obj, NodeData_t __value)
 
 inline void pushFrontNode(LLPtr __obj , NodeData_t __value)
 {
-    NodePtr temp = (NodePtr) malloc(SIZEOF_NODE);
+    NodePtr_t temp = (NodePtr_t) malloc(SIZEOF_NODE);
 
     if( ! temp )
     {
@@ -208,7 +154,7 @@ inline void peekLinkedList(LLPtr __obj)
         return;
     }
     
-    printf("Head= " FORMAT_SPECIFIER "\t Tail= " FORMAT_SPECIFIER "\t Len= %llu" , (__obj->_head->_data) , ( __obj->_tail->_data) , __obj->_len );
+    printf("Head= " FORMAT_SPECIFIER_LINKED_LIST "\t Tail= " FORMAT_SPECIFIER_LINKED_LIST "\t Len= %llu" , (__obj->_head->_data) , ( __obj->_tail->_data) , __obj->_len );
 }
 
 int main(void)
@@ -257,5 +203,3 @@ int main(void)
 
     return 0;
 }
-
-
