@@ -30,9 +30,9 @@ Function Parameters - smallcase starting with '__'
 
 Local Variables - lowercase
 
-Global Variables/constants - UPPER_CASE
+Immutable global variables - UPPER_CASE
 
-Global Variables/Non-constants - UPPER_CASE ending with '__'
+Mutable global Variables - UPPER_CASE ending with '__'
 
 typedef/structs/types - PascalCase
 
