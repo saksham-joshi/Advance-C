@@ -7,36 +7,92 @@
 #include<stdlib.h>
 #include<errno.h>
 
-typedef int NodeData_t;
+//typedef int NodeData_t;
 
-#if !defined(NodeData_t)
+#define NodeData_t int
+
+#if defined(NodeData_t)
         #if NodeData_t == int
             #define FORMAT_SPECIFIER_LINKED_LIST "%d"
+        #elif NodeData_t == unsigned int
+            #define FORMAT_SPECIFIER_LINKED_LIST "%u"
+        #elif NodeData_t == short int
+            #define FORMAT_SPECIFIER_LINKED_LIST "%hd"
+        #elif NodeData_t == unsigned short int
+            #define FORMAT_SPECIFIER_LINKED_LIST "%hu"
         #elif NodeData_t == long
             #define FORMAT_SPECIFIER_LINKED_LIST "%ld"
         #elif NodeData_t == long long
             #define FORMAT_SPECIFIER_LINKED_LIST "%lld"
         #elif NodeData_t == unsigned long long
             #define FORMAT_SPECIFIER_LINKED_LIST "%llu"
-        #elif NodeData_t == float
-            #define FORMAT_SPECIFIER_LINKED_LIST "%f"
         #elif NodeData_t == char
             #define FORMAT_SPECIFIER_LINKED_LIST "%c"
-        #elif NodeData_t == double
+        #elif NodeData_t == float
+            #define FORMAT_SPECIFIER_LINKED_LIST "%f"
+        #elif NodeData_t == long float
             #define FORMAT_SPECIFIER_LINKED_LIST "%lf"
+        #elif NodeData_t == double
+            #define FORMAT_SPECIFIER_LINKED_LIST "%f"
+        #elif NodeData_t == long double
+            #define FORMAT_SPECIFIER_LINKED_LIST "%Lf"
         #else
             #define FORMAT_SPECIFIER_LINKED_LIST "%s"
         #endif
-    #else
-        #error "You have to define 'NodeData_t to work on Doubly Linked List!"
+
+#else
+        
+    #error "You have to define 'NodeData_t to work on Doubly Linked List!"
+
 #endif
 
-struct Node
-{
-    struct Node* _prev;
-    NodeData_t _data;
-    struct Node* _next;
-};
+//#define SINGLY_LL
+//#define DOUBLE_LL
+#define MULTILEVEL_LL
+
+#if defined(SINGLY_LL)
+
+    struct Node
+    {
+        NodeData_t _data;
+        struct Node* _next;
+    };
+
+#elif defined(DOUBLE_LL)
+    
+    struct Node
+    {
+        struct Node* _prev;
+        NodeData_t _data;
+        struct Node* _next;
+    };
+
+#elif defined(MULTILEVEL_LL)
+
+    struct MultilevelLinkedList;
+
+    struct Node
+    {
+        struct MultilevelLinkedList* _child;
+        NodeData_t _data;
+        struct Node* _next;
+    };
+
+    struct MultilevelLinkedList
+    {
+        size_t _len;
+        struct Node* _head;
+        struct Node* _tail;
+    };
+
+    typedef struct MultilevelLinkedList* MlList;
+
+#else
+
+    #error "At least one of type of Linked List must be defined ...!"
+
+#endif 
+
 
 typedef struct Node* NodePtr_t;
 
