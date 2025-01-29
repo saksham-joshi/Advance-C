@@ -7,8 +7,6 @@
 #include<stdlib.h>
 #include<errno.h>
 
-//typedef int NodeData_t;
-
 #define NodeData_t int
 
 #if defined(NodeData_t)
@@ -46,9 +44,6 @@
 
 #endif
 
-//#define SINGLY_LL
-//#define DOUBLE_LL
-#define MULTILEVEL_LL
 
 #if defined(SINGLY_LL)
 
@@ -93,6 +88,8 @@
 
 #endif 
 
+
+#define LINKED_LIST_DEBUG_MODE 1
 
 typedef struct Node* NodePtr_t;
 
