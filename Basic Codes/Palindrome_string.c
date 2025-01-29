@@ -1,4 +1,4 @@
-#include "../Advance Codes/Input_string.hpp"
+#include "../Advance Codes/Input_string.h"
 
 typedef char Bool;
 
