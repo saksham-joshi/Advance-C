@@ -1,3 +1,5 @@
+#define SINGLY_LL
+
 #include "Base_LL.h"
 
 struct LinkedList {

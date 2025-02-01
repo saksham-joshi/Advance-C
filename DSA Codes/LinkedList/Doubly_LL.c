@@ -1,3 +1,5 @@
+#define DOUBLE_LL
+
 #include "Base_LL.h"
 
 struct DoublyLinkedList
