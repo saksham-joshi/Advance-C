@@ -138,6 +138,14 @@ inline void ModernStringUtil_incrementIterators(const char** __iter1 , const cha
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+int ModernStringUtil_charCmp(void* __context, const void* __lhs , const void* __rhs)
+{
+    return *((char*) __lhs) - *((char*) __rhs);
+}
+#pragma clang diagnostic pop
+
 
 
 

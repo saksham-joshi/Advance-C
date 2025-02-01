@@ -624,13 +624,13 @@ inline ULongLong rindexString(MstrPtr __obj  , char __ch)
 
     while(reverse_iterator >= __obj->_str && *reverse_iterator != __ch) -- reverse_iterator;
 
-    return (reverse_iterator >= __obj->_str) ? reverse_iterator - __obj->_str : MODERN_STRING_MAX_STRING_LEN;
+    return ((reverse_iterator >= __obj->_str) ? reverse_iterator - __obj->_str : MODERN_STRING_MAX_STRING_LEN);
 }
 
 // sorts the given string in ascending order
 inline void sortString(MstrPtr __obj)
 {
-
+    qsort_s(__obj->_str , __obj->_len , sizeof(char) , ModernStringUtil_charCmp, NULL);
 }
 
 /*
