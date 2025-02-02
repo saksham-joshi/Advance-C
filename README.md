@@ -8,7 +8,7 @@
 
 > 🚀 Starting date : ```01-January-2025```
 \
->🏆 Target date : ```31 - January - 2025```
+>🏆 Target date : ```28 - Feb - 2025```
 
 ---
 ### Motto
