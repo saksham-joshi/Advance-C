@@ -1,7 +1,7 @@
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
-inline static int* copyArray(int* __array , unsigned short int __len , int __some_non_zero_value)
+inline static int* copyArray(int* __array , unsigned short int __len , char __some_non_zero_value)
 {
     int *ar = ( int *) calloc ( __len , sizeof(int) );
 
@@ -25,10 +25,10 @@ inline static int* plusOne(int* __digits, unsigned short int __len, int* __retur
 
         *__return_size = __len;
 
-        return copyArray(__digits, __len , 0);
+        return copyArray(__digits, __len , '\0');
     }
 
-    int carry = 0;
+    char carry = '\0';
 
     if (*reverse_iterator == 9 )
     {
@@ -45,17 +45,17 @@ inline static int* plusOne(int* __digits, unsigned short int __len, int* __retur
 
             *__return_size = __len;
 
-            return copyArray(__digits , __len , 0);
+            return copyArray(__digits , __len , '\0');
         }
 
         *reverse_iterator += carry;
 
         if (*reverse_iterator >= 10)
         {
-            carry = 1;
+            carry = (char)1;
             *reverse_iterator %= 10;
         }
-        else carry = 0;
+        else carry = '\0';
 
         -- reverse_iterator;
     }
