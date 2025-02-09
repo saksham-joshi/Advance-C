@@ -1,5 +1,3 @@
-#define sqr( __num ) ( __num * __num)
-
 inline static int mySqrt(const unsigned int __num)
 {
     if ( __num < 2) return __num;
