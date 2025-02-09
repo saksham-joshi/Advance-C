@@ -14,7 +14,7 @@ inline float takeFloatInput(const char* __message)
     
 }
 
-#define NUMBER_INPUT_MESSAGE "> Number:_"
+#define NUMBER_INPUT_MESSAGE "\n> Number:_"
 #define OPERATOR_INPUT_MESSAGE "> Operator:_"
 
 inline void calculator()
@@ -25,7 +25,7 @@ inline void calculator()
     while(1)
     {
         printf("%s", OPERATOR_INPUT_MESSAGE);
-        scanf_s(" %c", &operator);
+        operator = _getche();
 
         switch(operator)
         {
