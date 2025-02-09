@@ -11,8 +11,16 @@
 */
 #define OUTPUT HELLO ## WORLD
 
+#define CONCAT( __x, __y) __x ## __y
+
 
 int main( void )
 {
-    printf("%s" , OUTPUT);
+    printf("\n |> %s" , OUTPUT);
+    
+    printf("\n |> %d", CONCAT(10,20));
+
+    printf("\n |> %f", CONCAT(10 , 12.20));
+
+    return 0;
 }
