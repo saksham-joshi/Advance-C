@@ -6,15 +6,6 @@
  * };
  */
 
-/*
- The description of the question mentioned that we have to return a new head.
-
- The new head can be either a whole new linked list or another pointer pointing
- to the same list. 
-
- The below implementation generates a whole new list!
-*/ 
-
 typedef struct
 {
     struct ListNode *_head;
@@ -22,32 +13,30 @@ typedef struct
 
 } LinkedList;
 
-inline static void pushBackLinkedList(LinkedList *__obj, int __value)
+inline static void pushBackLinkedList(LinkedList *__obj, struct ListNode *__node)
 {
     if (!__obj->_head)
-    {
-        __obj->_head = __obj->_tail = (struct ListNode *)malloc(sizeof(struct ListNode));
-    }
+        __obj->_head = __obj->_tail = __node;
+
     else
     {
-        __obj->_tail->next = (struct ListNode *)malloc(sizeof(struct ListNode));
-        __obj->_tail = __obj->_tail->next;
+        __obj->_tail->next = __node;
+        __obj->_tail = __node;
     }
-
-    __obj->_tail->val = __value;
-    __obj->_tail->next = 0;
 }
 
 inline static struct ListNode *removeElements(struct ListNode *__head, int __val)
 {
     LinkedList output = {0};
 
-    while (__head)
+    while ( __head )
     {
-        if (__head->val != __val) pushBackLinkedList(&output, __head->val);
+        if ( __head->val != __val ) pushBackLinkedList(&output, __head);
 
         __head = __head->next;
     }
+
+    if ( output._head ) output._tail->next = 0;
 
     return output._head;
 }
