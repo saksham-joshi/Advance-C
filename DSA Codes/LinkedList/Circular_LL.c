@@ -16,7 +16,11 @@ typedef CircularLinkedList* CllPtr_t;
 inline static void deleteCircularLL( CllPtr_t , NodeData_t );
 inline static void destroyCircularLL( CllPtr_t );
 inline static CircularLinkedList makeCircularLL( void );
-inline static void printCircularLL( CllPtr_t );
+
+#if IS_NODE_DATA_PRINTABLE
+    inline static void printCircularLL( CllPtr_t );
+#endif
+
 inline static void pushCircularLL( CllPtr_t , NodeData_t );
 inline static void utilDestroyCircularLL( NodePtr_t , NodePtr_t );
 
@@ -110,26 +114,28 @@ inline static void peekCircularLL( CllPtr_t __obj)
     else puts("\n ||=|| Head= 0\tTail= 0\t Len=0");
 }
 
-inline static void printCircularLL( CllPtr_t __obj )
-{
-    if ( ! __obj->_head ) {
-        puts("\n\t\t{{ Empty Circular Linked List! }}");
-        return;
-    }
-
-    NodePtr_t iterator = __obj->_head;
-
-    printf("\n Circular LL: [ ");
-
-    while(iterator != __obj->_tail )
+#if IS_NODE_DATA_PRINTABLE
+    inline static void printCircularLL( CllPtr_t __obj )
     {
-        printf(FORMAT_SPECIFIER_LINKED_LIST ", " , iterator->_data );
-        iterator = iterator->_next;
+        if ( ! __obj->_head ) {
+            puts("\n\t\t{{ Empty Circular Linked List! }}");
+            return;
+        }
+
+        NodePtr_t iterator = __obj->_head;
+
+        printf("\n Circular LL: [ ");
+
+        while(iterator != __obj->_tail )
+        {
+            printf(FORMAT_SPECIFIER_LINKED_LIST ", " , iterator->_data );
+            iterator = iterator->_next;
+        }
+
+        printf(FORMAT_SPECIFIER_LINKED_LIST " ]\n" , iterator->_data);
+
     }
-
-    printf(FORMAT_SPECIFIER_LINKED_LIST " ]\n" , iterator->_data);
-
-}
+#endif
 
 inline static void pushCircularLL( CllPtr_t __obj , NodeData_t __value)
 {
