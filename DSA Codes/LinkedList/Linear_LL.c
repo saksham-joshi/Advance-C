@@ -74,27 +74,29 @@ inline struct LinkedList makeLinkedList()
     return obj;
 }
 
-inline void printLinkedList(LLPtr __obj)
-{
-
-    if(!__obj->_head) {
-        printf("[ ]");
-        return;
-    }
-
-    printf("[ ");
-
-    NodePtr_t iterator = __obj->_head;
-
-    while(iterator->_next)
+#if IS_NODE_DATA_PRINTABLE
+    inline void printLinkedList(LLPtr __obj)
     {
-        printf(FORMAT_SPECIFIER_LINKED_LIST ", ", iterator->_data);
-        iterator = iterator->_next;
+
+        if(!__obj->_head) {
+            printf("[ ]");
+            return;
+        }
+
+        printf("[ ");
+
+        NodePtr_t iterator = __obj->_head;
+
+        while(iterator->_next)
+        {
+            printf(FORMAT_SPECIFIER_LINKED_LIST ", ", iterator->_data);
+            iterator = iterator->_next;
+        }
+
+        printf( FORMAT_SPECIFIER_LINKED_LIST " ]", iterator->_data);
+
     }
-
-    printf( FORMAT_SPECIFIER_LINKED_LIST " ]", iterator->_data);
-
-}
+#endif
 
 inline void pushBackNode(LLPtr __obj, NodeData_t __value)
 {
