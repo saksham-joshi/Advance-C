@@ -85,27 +85,28 @@ inline static void peekDoublyLinkedList(DLLptr_t __obj)
     }
 }
 
-
-inline static void printDoublyLinkedList(DLLptr_t __obj)
-{
-    if ( ! __obj->_len ) 
+#if IS_NODE_DATA_PRINTABLE
+    inline static void printDoublyLinkedList(DLLptr_t __obj)
     {
-        printf( "[ ]" ) ;
-        return ;
+        if ( ! __obj->_len ) 
+        {
+            printf( "[ ]" ) ;
+            return ;
+        }
+
+        NodePtr_t iterator = __obj->_head;
+
+        printf("[ ");
+
+        while( iterator->_next )
+        {
+            printf(FORMAT_SPECIFIER_LINKED_LIST ", " , iterator->_data);
+            iterator = iterator->_next;
+        }
+
+        printf(FORMAT_SPECIFIER_LINKED_LIST " ]" , iterator->_data);
     }
-
-    NodePtr_t iterator = __obj->_head;
-
-    printf("[ ");
-
-    while( iterator->_next )
-    {
-        printf(FORMAT_SPECIFIER_LINKED_LIST ", " , iterator->_data);
-        iterator = iterator->_next;
-    }
-
-    printf(FORMAT_SPECIFIER_LINKED_LIST " ]" , iterator->_data);
-}
+#endif
 
 inline static void pushBackNode(DLLptr_t __obj , NodeData_t __value)
 {
