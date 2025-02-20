@@ -58,7 +58,7 @@
             #elif NodeData_t == long float
                 #define FORMAT_SPECIFIER_LINKED_LIST "%lf"
             #elif NodeData_t == double
-                #define FORMAT_SPECIFIER_LINKED_LIST "%f"
+                #define FORMAT_SPECIFIER_LINKED_LIST "%lf"
             #elif NodeData_t == long double
                 #define FORMAT_SPECIFIER_LINKED_LIST "%Lf"
             #else
