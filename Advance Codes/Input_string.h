@@ -6,16 +6,23 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-inline static char* copyDataAndFree(char* __str, unsigned long __length)
+inline static char* copyDataAndFree(char* __str, unsigned long __length, unsigned long* __buffer_size)
 {
     char* original = __str;
-    char *copy = (char*) calloc(__length*2, sizeof(char));
+    *__buffer_size = __length * 2;
+
+    char *new_string = (char*) calloc( *__buffer_size , sizeof(char));
     
-    if(copy == NULL) return NULL;
+    if( ! new_string )
+    {
+        errno = ENOMEM;
+        return NULL;
+    }
 
-    char* iterator = copy;
+    char* iterator = new_string;
 
-    while(*__str){
+    while(*__str)
+    {
         *iterator = *__str;
         ++iterator;
         ++__str;
@@ -25,7 +32,7 @@ inline static char* copyDataAndFree(char* __str, unsigned long __length)
 
     free(original);
 
-    return copy;
+    return new_string;
 }
 
 typedef struct 
@@ -51,9 +58,8 @@ inline static SimpleStringStore getDataFromConsole(unsigned long __buffer_size, 
     {
         if(index == __buffer_size)
         {
-            str = copyDataAndFree(str, index);
+            str = copyDataAndFree(str, index , &__buffer_size);
             iterator = str + index;
-            __buffer_size *= 2;
         }
 
         *iterator = ch;
@@ -85,7 +91,7 @@ inline static SimpleStringStore getLine(const char* __message)
 // ================== A Sample of how to get input ======================= //
 // int main()
 // {
-//     SimpleStringStore obj = getLine("\n ==> Enter a number :- ");
+//     SimpleStringStore obj = getLine("\n ==> Enter a string :- ");
 
 //     printf("\n Output = '%s'\n =| Length = %lu", obj.str , obj.len);
 
