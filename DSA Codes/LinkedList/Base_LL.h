@@ -1,4 +1,5 @@
 #pragma once
+#pragma clang optimize("-O3")
 
 #ifndef _BASE_LL_H_
 #define _BASE_LL_H_
@@ -45,7 +46,7 @@
                 #define FORMAT_SPECIFIER_LINKED_LIST "%hd"
             #elif NodeData_t == unsigned short int
                 #define FORMAT_SPECIFIER_LINKED_LIST "%hu"
-            #elif NodeData_t == long
+            #elif NodeData_t == long int
                 #define FORMAT_SPECIFIER_LINKED_LIST "%ld"
             #elif NodeData_t == long long
                 #define FORMAT_SPECIFIER_LINKED_LIST "%lld"
@@ -55,8 +56,6 @@
                 #define FORMAT_SPECIFIER_LINKED_LIST "%c"
             #elif NodeData_t == float
                 #define FORMAT_SPECIFIER_LINKED_LIST "%f"
-            #elif NodeData_t == long float
-                #define FORMAT_SPECIFIER_LINKED_LIST "%lf"
             #elif NodeData_t == double
                 #define FORMAT_SPECIFIER_LINKED_LIST "%lf"
             #elif NodeData_t == long double
