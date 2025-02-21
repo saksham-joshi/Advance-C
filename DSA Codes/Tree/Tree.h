@@ -98,6 +98,11 @@ typedef Node* NodePtr_t;
         }
     }
 
+    #define printTree( __message , __order_func , __root_node ) \
+        printf (" \n | " __message " -- [ " ); \
+        __order_func( __root_node ); \
+        puts(" ]");
+
 #endif
 
 #ifdef FORMAT_SPECIFIER_TREE
@@ -156,4 +161,9 @@ static unsigned int heightOfTree( NodePtr_t __node )
 inline static _Bool isLeafNode ( NodePtr_t __node )
 {
     return !__node->_left && !__node->_right;
+}
+
+inline static _Bool isHalfNode ( NodePtr_t __node )
+{
+    return (__node->_left && !__node->_right) || (__node->_right && !__node->_left);
 }
