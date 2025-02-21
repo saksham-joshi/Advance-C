@@ -7,6 +7,7 @@
 #define NodeData_t int
 #define IS_NODE_DATA_PRINTABLE 1
 
+
 #if IS_NODE_DATA_PRINTABLE
     #if defined(NodeData_t)
             #if NodeData_t == int
@@ -27,18 +28,18 @@
                 #define FORMAT_SPECIFIER_TREE "%c"
             #elif NodeData_t == float
                 #define FORMAT_SPECIFIER_TREE "%f"
-            #elif NodeData_t == long float
-                #define FORMAT_SPECIFIER_TREE "%lf"
             #elif NodeData_t == double
                 #define FORMAT_SPECIFIER_TREE "%lf"
             #elif NodeData_t == long double
                 #define FORMAT_SPECIFIER_TREE "%Lf"
-            #else
+            #elif NodeData_t == char*
                 #define FORMAT_SPECIFIER_TREE "%s"
+            #else 
+                #error "Cannot identify datatype of 'NodeData_t'. Set 'IS_NODE_DATA_PRINTABLE' macro to 0 to remove this error"
             #endif
 
-    #else   
-        #error "You have to define 'NodeData_t to work on any Linked List!"
+    #else
+        #error "You have to define 'NodeData_t to work on Tree!"
     #endif
 #endif
 
@@ -57,7 +58,6 @@ typedef struct
 
 typedef struct BaseNode Node;
 typedef Node* NodePtr_t;
-
 
 
 #if IS_NODE_DATA_PRINTABLE
