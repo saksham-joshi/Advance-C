@@ -1,11 +1,6 @@
 #include "Tree.h"
 #include<conio.h>
 
-#define printTree( __message , __order_func , __root_node ) \
-        printf (" \n | " __message " -- [ " ); \
-        __order_func( __root_node ); \
-        puts(" ]");
-
 
 inline static void insertNode ( NodePtr_t __root , NodeData_t __data)
 {
