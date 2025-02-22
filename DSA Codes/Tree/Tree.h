@@ -167,3 +167,8 @@ inline static _Bool isHalfNode ( NodePtr_t __node )
 {
     return (__node->_left && !__node->_right) || (__node->_right && !__node->_left);
 }
+
+inline static _Bool isFullNode ( NodePtr_t __node )
+{
+    return __node->_left && __node->_right;
+}
