@@ -32,9 +32,9 @@ inline static void queuePrint ( QueuePtr_t __obj )
 
 inline static void queuePeek ( QueuePtr_t __obj )
 {
-    if ( __obj->_len ) printf( "\n |+| Len= %lu \t Head= %d \t Tail= %d\n", __obj->_len , __obj->_front->_value , __obj->_back->_value );
+    if ( __obj->_len ) printf( "\n |+| Len= %lu \t Front= %d \t Back= %d\n", __obj->_len , __obj->_front->_value , __obj->_back->_value );
     
-    else puts ( "\n |+| Len= 0 \t Head= NULL \t Tail= NULL");
+    else puts ( "\n |+| Len= 0 \t Front= NULL \t Back= NULL");
 }
 
 int main ( void )
