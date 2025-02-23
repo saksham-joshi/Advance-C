@@ -151,6 +151,26 @@ inline static void queueDestroy ( QueuePtr_t __obj )
     }
 }
 
+inline static QueueBase_t* queueGetBackValue ( QueuePtr_t __obj )
+{
+    if ( __obj->_len ) return &__obj->_back->_value;
+
+    errno = EPERM;
+    perror("[ Underflow ]");
+
+    return NULL;
+}
+
+inline static QueueBase_t* queueGetFrontValue ( QueuePtr_t __obj )
+{
+    if ( __obj->_len ) return &__obj->_front->_value;
+
+    errno = EPERM;
+    perror ( "[ Underflow ]" );
+
+    return NULL;
+}
+
 inline static _Bool queueIsEmpty( QueuePtr_t __obj )
 {
     return ! __obj->_len ;
