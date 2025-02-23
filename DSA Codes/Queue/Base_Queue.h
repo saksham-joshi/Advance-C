@@ -68,6 +68,8 @@ inline static void queuePushFront ( QueuePtr_t __obj , QueueBase_t __value )
         if ( __obj->_front ) __obj->_front = new_node;
 
         else __obj->_front = __obj->_back = new_node;
+
+        ++ __obj->_len;
     }
     else 
     {
@@ -102,17 +104,17 @@ inline static void queuePopBack ( QueuePtr_t __obj )
 {
     if ( __obj->_len )
     {
-
         NodePtr_t iterator = __obj->_front;
 
         while ( iterator->_next && iterator->_next != __obj->_back ) iterator = iterator->_next;
 
-        if ( iterator->_next )
+        if ( iterator->_next ) 
         {
             free ( iterator->_next );
             iterator->_next = NULL;
+            __obj->_back = iterator;
         }
-        else 
+        else
         {
             free ( __obj->_front );
             __obj->_front = __obj->_back = NULL;
@@ -139,7 +141,7 @@ static void baseQueueDestroy ( NodePtr_t __node , const NodePtr_t __end_node )
 
 inline static void queueDestroy ( QueuePtr_t __obj )
 {
-    if ( __obj->_front )
+    if ( __obj->_len )
     {
         baseQueueDestroy( __obj->_front , __obj->_back );
 
