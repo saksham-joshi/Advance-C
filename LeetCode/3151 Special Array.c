@@ -3,7 +3,6 @@
 
 inline static bool isEven(int __num)
 {
-    printf("\n =>> %d", __num);
     return (__num == 1 || __num % 2 != 0) ? false : true;
 }
 
