@@ -1,19 +1,27 @@
 #define SINGLY_LL
 
+#include<stdio.h>
 #include "Base_LL.h"
 
-struct LinkedList {
-    size_t _len;
-    NodePtr_t _head;
-    NodePtr_t _tail;
-};
+inline NodeData_t getInput(const char* __str)
+{
+    printf_s("%s", __str);
 
-typedef struct LinkedList* LLPtr;
+    NodeData_t value;
 
+    scanf_s("%d", &value);
+
+    return value;
+}
 
 inline void deleteFrontNode(LLPtr __obj)
 {
-    if(!__obj->_head) return;
+    if(!__obj->_head)
+    {
+        errno = EPERM;
+        perror("Cannot perform deletion in empty linked list");
+        return;
+    }
 
     else if(__obj->_head == __obj->_tail)
     {
@@ -32,7 +40,12 @@ inline void deleteFrontNode(LLPtr __obj)
 
 inline void deleteBackNode(LLPtr __obj)
 {
-    if(!__obj->_head) return;
+    if(!__obj->_head)
+    {
+        errno = EPERM;
+        perror("Cannot perform deletion in empty linked list");
+        return;
+    }
 
     else if(__obj->_head == __obj->_tail)
     {
@@ -67,36 +80,31 @@ inline void destroyLinkedList(LLPtr __obj)
     __obj->_len = 0;
 }
 
-inline struct LinkedList makeLinkedList()
-{
-    struct LinkedList obj = {0};
 
-    return obj;
+inline void printLinkedList(LLPtr __obj)
+{
+    printf("\n Linked List -- ");
+        
+    if(!__obj->_head)
+    {
+        puts("[ ]");
+        return;
+    }
+
+    printf_s("[ ");
+
+    NodePtr_t iterator = __obj->_head;
+
+    while(iterator->_next)
+    {
+        printf_s("%d, ", iterator->_data);
+        iterator = iterator->_next;
+    }
+
+    printf_s( "%d ]", iterator->_data);
+
 }
 
-#if IS_NODE_DATA_PRINTABLE
-    inline void printLinkedList(LLPtr __obj)
-    {
-
-        if(!__obj->_head) {
-            printf("[ ]");
-            return;
-        }
-
-        printf("[ ");
-
-        NodePtr_t iterator = __obj->_head;
-
-        while(iterator->_next)
-        {
-            printf(FORMAT_SPECIFIER_LINKED_LIST ", ", iterator->_data);
-            iterator = iterator->_next;
-        }
-
-        printf( FORMAT_SPECIFIER_LINKED_LIST " ]", iterator->_data);
-
-    }
-#endif
 
 inline void pushBackNode(LLPtr __obj, NodeData_t __value)
 {
@@ -105,6 +113,7 @@ inline void pushBackNode(LLPtr __obj, NodeData_t __value)
     if( ! temp ) 
     {
         errno = ENOMEM;
+        perror("Cannot generate new node for linked list");
         return;
     }
 
@@ -132,6 +141,7 @@ inline void pushFrontNode(LLPtr __obj , NodeData_t __value)
     if( ! temp )
     {
         errno = ENOMEM;
+        perror("Cannot generate new node");
         return;
     }
 
@@ -151,14 +161,11 @@ inline void pushFrontNode(LLPtr __obj , NodeData_t __value)
 
 inline void peekLinkedList(LLPtr __obj)
 {
-    printf("\n |+| ");
-    if( ! __obj->_head )
-    {
-        printf("Head= NULL\tTail= NULL\tLen= 0");
-        return;
-    }
-    
-    printf("Head= " FORMAT_SPECIFIER_LINKED_LIST "\t Tail= " FORMAT_SPECIFIER_LINKED_LIST "\t Len= %llu" , (__obj->_head->_data) , ( __obj->_tail->_data) , __obj->_len );
+    printf_s("\n |+| ");
+
+    if( ! __obj->_head ) printf_s("Head= NULL\tTail= NULL\tLen= 0");
+
+    else  printf_s("Head= %d\t Tail= %d\t Len= %llu" , (__obj->_head->_data) , ( __obj->_tail->_data) , __obj->_len );
 }
 
 int main(void)
@@ -169,7 +176,7 @@ int main(void)
 
     while ( 1 )
     {
-        printf(
+        printf_s(
             "\n 1. Push back"
             "\n 2. Push front"
             "\n 3. Delete back"
@@ -197,10 +204,11 @@ int main(void)
 
             case 7 : peekLinkedList(&obj); break;
 
-            default: printf("\n |=| Invalid choice!"); return 0;
+            default: printf_s("\n |=| Invalid choice!"); return 0;
         }
 
-        printf("\n\t |+| Operation done Succesfully |+| \n");
+        if (errno) errno = 0;
+        else puts("\n\t |+| Operation done Succesfully |+| \n");
     }
 
     destroyLinkedList(&obj);
