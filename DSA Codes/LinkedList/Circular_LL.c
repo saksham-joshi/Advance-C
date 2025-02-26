@@ -1,25 +1,28 @@
 #define SINGLY_LL
 
+#include<stdio.h>
 #include "Base_LL.h"
 
-typedef struct
+inline NodeData_t getInput(const char* __str)
 {
+    printf_s("%s", __str);
 
-    NodePtr_t _head;
-    NodePtr_t _tail;
-    size_t _len;
+    NodeData_t value;
 
-} CircularLinkedList ;
+    scanf_s("%d", &value);
 
-typedef CircularLinkedList* CllPtr_t;
+    return value;
+}
+
+typedef LLPtr CllPtr_t;
+typedef struct LinkedList CircularLinkedList;
 
 inline static void deleteCircularLL( CllPtr_t , NodeData_t );
 inline static void destroyCircularLL( CllPtr_t );
 inline static CircularLinkedList makeCircularLL( void );
 
-#if IS_NODE_DATA_PRINTABLE
-    inline static void printCircularLL( CllPtr_t );
-#endif
+
+inline static void printCircularLL( CllPtr_t );
 
 inline static void pushCircularLL( CllPtr_t , NodeData_t );
 inline static void utilDestroyCircularLL( NodePtr_t , NodePtr_t );
@@ -102,40 +105,38 @@ inline static void destroyCircularLL( CllPtr_t __obj )
 
 inline static CircularLinkedList makeCircularLL ( void )
 {
-    CircularLinkedList obj = {0};
-
-    return obj;
+    return makeLinkedList();
 }
 
 inline static void peekCircularLL( CllPtr_t __obj)
 {
-    if ( __obj->_head ) printf("\n ||=|| Head= " FORMAT_SPECIFIER_LINKED_LIST "\t Tail= " FORMAT_SPECIFIER_LINKED_LIST "\t Len= %zu" , __obj->_head->_data , __obj->_tail->_data , __obj->_len );
+    if ( __obj->_head ) printf_s("\n ||=|| Head= %d\t Tail= %d\t Len= %zu" , __obj->_head->_data , __obj->_tail->_data , __obj->_len );
 
     else puts("\n ||=|| Head= 0\tTail= 0\t Len=0");
 }
 
-#if IS_NODE_DATA_PRINTABLE
-    inline static void printCircularLL( CllPtr_t __obj )
-    {
-        if ( ! __obj->_head ) {
-            puts("\n\t\t{{ Empty Circular Linked List! }}");
-            return;
-        }
 
-        NodePtr_t iterator = __obj->_head;
-
-        printf("\n Circular LL: [ ");
-
-        while(iterator != __obj->_tail )
-        {
-            printf(FORMAT_SPECIFIER_LINKED_LIST ", " , iterator->_data );
-            iterator = iterator->_next;
-        }
-
-        printf(FORMAT_SPECIFIER_LINKED_LIST " ]\n" , iterator->_data);
-
+inline static void printCircularLL( CllPtr_t __obj )
+{
+    if ( ! __obj->_head ) {
+        puts("\n\t\t{{ Empty Circular Linked List! }}");
+        return;
     }
-#endif
+
+    NodePtr_t iterator = __obj->_head;
+
+    printf_s("\n Circular LL: [ ");
+
+    while(iterator != __obj->_tail )
+    {
+        printf_s("%d, " , iterator->_data );
+        iterator = iterator->_next;
+    }
+
+    printf_s( "%d  ]\n" , iterator->_data);
+
+}
+
 
 inline static void pushCircularLL( CllPtr_t __obj , NodeData_t __value)
 {
@@ -181,7 +182,7 @@ int main(void)
 
     while ( 1 )
     {
-        printf(
+        printf_s(
             "\n 1. Push "
             "\n 2. Delete"
             "\n 3. Destroy"
@@ -203,10 +204,10 @@ int main(void)
 
             case 5 : peekCircularLL(&obj); break;
 
-            default: printf("\n |=| Invalid choice!"); return 0;
+            default: printf_s("\n |=| Invalid choice!"); return 0;
         }
 
-        if ( errno ) perror("Caught some error");
+        if ( errno ) errno = 0;
         else puts("\n\t |+| Operation done Succesfully |+| \n");
     }
 
