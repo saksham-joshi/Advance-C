@@ -1,19 +1,28 @@
 #define DOUBLE_LL
 
+#include<stdio.h>
 #include "Base_LL.h"
 
-struct DoublyLinkedList
+inline NodeData_t getInput(const char* __str)
 {
-    NodePtr_t _head;
-    NodePtr_t _tail;
-    size_t _len;
-};
+    printf_s("%s", __str);
 
-typedef struct DoublyLinkedList* DLLptr_t;
+    NodeData_t value;
+
+    scanf_s("%d", &value);
+
+    return value;
+}
+
 
 inline static void deleteBackNode(DLLptr_t __obj)
 {
-    if( ! __obj->_len ) return;
+    if( ! __obj->_len )
+    {
+        errno = EPERM;
+        perror("Cannot perform deletion in empty linked list");
+        return;
+    }
 
     else if (__obj->_len == 1) 
     {
@@ -33,7 +42,12 @@ inline static void deleteBackNode(DLLptr_t __obj)
 inline static void deleteFrontNode(DLLptr_t __obj)
 {
 
-    if ( ! __obj->_len ) return;
+    if ( ! __obj->_len )
+    {
+        errno = EPERM;
+        perror("Cannot perform deletion in empty linked list");
+        return;
+    }
 
     else if (__obj->_len == 1) 
     {
@@ -62,51 +76,41 @@ inline static void destroyDoublyLinkedList(DLLptr_t __obj)
     __obj->_len = 0;
 }
 
-inline static struct DoublyLinkedList makeDoublyLinkedList(void)
-{
-    struct DoublyLinkedList obj = {0};
-
-    return obj;
-}
 
 inline static void peekDoublyLinkedList(DLLptr_t __obj)
 {
-    if( ! __obj->_len ) 
-    {
-        printf("|+| Head= NULL\t Tail= NULL\t Len= 0");
-        
-    }
-    else
-    {
-        printf("|+| Head= " FORMAT_SPECIFIER_LINKED_LIST 
-                 "\tTail= " FORMAT_SPECIFIER_LINKED_LIST 
-                 "\tLen= %llu", (__obj->_head->_data) , (__obj->_tail->_data), __obj->_len
-        );
-    }
+
+    if ( __obj->_len ) printf_s("|+| Head= %d"  
+                 "\tTail= %d"
+                 "\tLen= %llu", (__obj->_head->_data) , (__obj->_tail->_data), __obj->_len );
+                 
+    else printf_s("|+| Head= NULL\t Tail= NULL\t Len= 0");
 }
 
-#if IS_NODE_DATA_PRINTABLE
-    inline static void printDoublyLinkedList(DLLptr_t __obj)
+
+inline static void printDoublyLinkedList(DLLptr_t __obj)
+{
+    printf_s ( "\n Doubly Linked List -- ");
+
+    if ( ! __obj->_len ) 
     {
-        if ( ! __obj->_len ) 
-        {
-            printf( "[ ]" ) ;
-            return ;
-        }
-
-        NodePtr_t iterator = __obj->_head;
-
-        printf("[ ");
-
-        while( iterator->_next )
-        {
-            printf(FORMAT_SPECIFIER_LINKED_LIST ", " , iterator->_data);
-            iterator = iterator->_next;
-        }
-
-        printf(FORMAT_SPECIFIER_LINKED_LIST " ]" , iterator->_data);
+        puts( "[ ]" ) ;
+        return ;
     }
-#endif
+
+    NodePtr_t iterator = __obj->_head;
+
+    printf_s("[ ");
+
+    while( iterator->_next )
+    {
+        printf_s("%d, " , iterator->_data);
+        iterator = iterator->_next;
+    }
+
+    printf_s( "%d ]" , iterator->_data);
+}
+
 
 inline static void pushBackNode(DLLptr_t __obj , NodeData_t __value)
 {
@@ -115,7 +119,8 @@ inline static void pushBackNode(DLLptr_t __obj , NodeData_t __value)
     if ( ! temp )
     {
         errno = ENOMEM;
-        return ;
+        perror("Cannot generate new node");
+        return;
     }
 
     temp->_data = __value;
@@ -145,6 +150,7 @@ inline static void pushFrontNode(DLLptr_t __obj , NodeData_t __value)
     if ( ! temp )
     {
         errno = ENOMEM;
+        perror("Cannot generate new node");
         return;
     }
 
@@ -173,7 +179,7 @@ int main(void)
 
     while ( 1 )
     {
-        printf(
+        printf_s(
             "\n 1. Push back"
             "\n 2. Push front"
             "\n 3. Delete back"
@@ -201,10 +207,11 @@ int main(void)
 
             case 7 : peekDoublyLinkedList(&obj); break;
 
-            default: printf("\n |=| Invalid choice!"); return 0;
+            default: printf_s("\n |=| Invalid choice!"); return 0;
         }
 
-        printf("\n\t |+| Operation done Succesfully |+| \n");
+        if ( errno ) errno = 0;
+        else puts("\n\t |+| Operation done Succesfully |+| \n");
     }
 
     destroyDoublyLinkedList(&obj);
