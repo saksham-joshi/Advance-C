@@ -5,12 +5,6 @@
 > #### <a href="https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html">Visit here for well written **C language documentations**. </a>
 
 ---
-
-> 🚀 Starting date : ```01-January-2025```
-\
->🏆 Target date : ```28 - Feb - 2025```
-
----
 ### Motto
 ```
 Master the C language to such an extent that writing highly complex systems feels ease.
@@ -40,6 +34,12 @@ struct members - smallcase starting with underscore
 
 File names - Capitalized seperated by underscore
 ```
+
+---
+
+> 🚀 **Starting date** : ```01-January-2025```
+
+---
 
 ## 🔗 Developer Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://sakshamjoshi.vercel.app/)
