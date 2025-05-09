@@ -1,116 +1,154 @@
+#pragma once
+
 #ifndef _CUSTOM_FILE_READER_
 #define _CUSTOM_FILE_READER_
 
-#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 
-typedef struct 
-{
-    char* _filename;
-    char* _content;
-    char* _seek;
-    size_t _size;
-    HANDLE _hFile;
-    HANDLE _hMapping;
-} CustomFile;
+struct BinaryReader;
 
-typedef CustomFile* FilePtr;
+typedef struct BinaryReader* FilePtr;
 
-inline static CustomFile openFile(const char* const __filename)
-{
-    HANDLE hFile = CreateFileA(
-        __filename,
-        GENERIC_READ,
-        FILE_SHARE_READ,
-        NULL,
-        OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
-        NULL
-    );
+#ifdef _WIN64
+    #include<windows.h>
 
-    if (hFile == INVALID_HANDLE_VALUE)
+    struct BinaryReader
     {
-        fprintf(stderr, "Failed to open file: %s\n", __filename);
-        
-        exit(EXIT_FAILURE);
-    }
+        char* _filename;
+        char* _content;
+        char* _seek;
+        size_t _size;
+        HANDLE _hfile;
+        HANDLE _hmapping;
+    };
 
-    DWORD fileSize = GetFileSize(hFile, NULL);
-
-    if (fileSize == INVALID_FILE_SIZE || fileSize == 0)
+    inline static struct BinaryReader openFile(const char* const __filename)
     {
-        CloseHandle(hFile);
+        HANDLE hFile = CreateFileA(
+            __filename,
+            GENERIC_READ,
+            FILE_SHARE_READ,
+            NULL,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL,
+            NULL
+        );
 
-        fprintf(stderr, "File is empty or error determining size.\n");
+        if (hFile == INVALID_HANDLE_VALUE)
+        {
+            errno = ENOENT;
 
-        exit(EXIT_FAILURE);
+            perror("Failed to open file");
+
+            return;
+        }
+
+        DWORD fileSize = GetFileSize(hFile, NULL);
+
+        if (fileSize == INVALID_FILE_SIZE || fileSize == 0)
+        {
+            errno = ENOENT;
+
+            perror("Failed to find file size");
+
+            CloseHandle(hFile);
+
+            return;
+        }
+
+        HANDLE hMapping = CreateFileMappingA(
+            hFile,
+            NULL,
+            PAGE_READONLY,
+            0,
+            0,
+            NULL
+        );
+
+        if (!hMapping)
+        {
+            errno = EPERM;
+
+            perror("Failed to create file mapping");
+
+            CloseHandle(hFile);
+
+            return;
+        }
+
+        LPVOID data = MapViewOfFile(
+            hMapping,
+            FILE_MAP_READ,
+            0,
+            0,
+            0
+        );
+
+        if (!data)
+        {
+            CloseHandle(hMapping);
+
+            CloseHandle(hFile);
+
+            errno = EPERM;
+
+            perror("Failed to map view of file.\n");
+
+            return;
+        }
+
+        struct BinaryReader file;
+        file._filename = _strdup(__filename);
+        file._content = (char*)data;
+        file._seek = file._content;
+        file._size = fileSize;
+        file._hfile = hFile;
+        file._hmapping = hMapping;
+
+        return file;
     }
 
-    HANDLE hMapping = CreateFileMappingA(
-        hFile,
-        NULL,
-        PAGE_READONLY,
-        0,
-        0,
-        NULL
-    );
-
-    if (!hMapping) {
-        CloseHandle(hFile);
-        fprintf(stderr, "Failed to create file mapping.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    LPVOID data = MapViewOfFile(
-        hMapping,
-        FILE_MAP_READ,
-        0,
-        0,
-        0
-    );
-
-    if (!data) {
-        CloseHandle(hMapping);
-        CloseHandle(hFile);
-        fprintf(stderr, "Failed to map view of file.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    CustomFile file;
-    file._filename = _strdup(__filename);
-    file._content = (char*)data;
-    file._seek = file._content;
-    file._size = fileSize;
-    file._hFile = hFile;
-    file._hMapping = hMapping;
-
-    return file;
-}
-
-inline static void readData(FilePtr __file, void* __write_on, unsigned int __bytes_to_read)
-{
-    if ((__file->_seek - __file->_content + __bytes_to_read) > __file->_size)
+    inline static void readData(FilePtr __file, void* __write_on, unsigned int __bytes_to_read)
     {
-        fprintf(stderr, "Read beyond file bounds\n");
+        if ((__file->_seek - __file->_content + __bytes_to_read) > __file->_size)
+        {
+            errno = ESPIPE;
 
-        exit(EXIT_FAILURE);
+            perror("File read is out of bound");
+
+            return;
+        }
+
+        memcpy(__write_on, __file->_seek, __bytes_to_read);
+
+        __file->_seek += __bytes_to_read;
     }
 
-    memcpy(__write_on, __file->_seek, __bytes_to_read);
+    inline static void closeBinaryReader(FilePtr __file)
+    {
+        UnmapViewOfFile(__file->_content);
 
-    __file->_seek += __bytes_to_read;
-}
+        CloseHandle(__file->_hfile);
 
-inline static void closeFile(FilePtr __file)
-{
-    UnmapViewOfFile(__file->_content);
+        CloseHandle(__file->_hmapping);
 
-    CloseHandle(__file->_hMapping);
+        __file->_hfile = __file->_hmapping = NULL;
 
-    CloseHandle(__file->_hFile);
+        free(__file->_filename);
 
-    free(__file->_filename);
-}
+        __file->_filename = NULL;
+    }
+
+    inline static unsigned int getSeekPos( FilePtr __file )
+    {
+        return __file->_seek - __file->_content;
+    }
+
+#else 
+    #error "THIS SOURCE CODE CAN ONLY BE COMPILED FOR WINDOWS OS"
+
+#endif
 
 #endif
