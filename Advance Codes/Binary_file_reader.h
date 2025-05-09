@@ -26,6 +26,8 @@ typedef struct BinaryReader* FilePtr;
 
     inline static struct BinaryReader openFile(const char* const __filename)
     {
+        struct BinaryReader output = { 0 };
+
         HANDLE hFile = CreateFileA(
             __filename,
             GENERIC_READ,
@@ -42,7 +44,7 @@ typedef struct BinaryReader* FilePtr;
 
             perror("Failed to open file");
 
-            return;
+            return output;
         }
 
         DWORD fileSize = GetFileSize(hFile, NULL);
@@ -55,7 +57,7 @@ typedef struct BinaryReader* FilePtr;
 
             CloseHandle(hFile);
 
-            return;
+            return output;
         }
 
         HANDLE hMapping = CreateFileMappingA(
@@ -75,7 +77,7 @@ typedef struct BinaryReader* FilePtr;
 
             CloseHandle(hFile);
 
-            return;
+            return output;
         }
 
         LPVOID data = MapViewOfFile(
@@ -96,23 +98,22 @@ typedef struct BinaryReader* FilePtr;
 
             perror("Failed to map view of file.\n");
 
-            return;
+            return output;
         }
 
-        struct BinaryReader file;
-        file._filename = _strdup(__filename);
-        file._content = (char*)data;
-        file._seek = file._content;
-        file._size = fileSize;
-        file._hfile = hFile;
-        file._hmapping = hMapping;
+        output._filename = _strdup(__filename);
+        output._content = (char*)data;
+        output._seek = output._content;
+        output._size = fileSize;
+        output._hfile = hFile;
+        output._hmapping = hMapping;
 
-        return file;
+        return output;
     }
 
     inline static void readData(FilePtr __file, void* __write_on, unsigned int __bytes_to_read)
     {
-        if ((__file->_seek - __file->_content + __bytes_to_read) > __file->_size)
+        if ( (size_t)(__file->_seek - __file->_content + __bytes_to_read) > __file->_size)
         {
             errno = ESPIPE;
 
@@ -150,5 +151,6 @@ typedef struct BinaryReader* FilePtr;
     #error "THIS SOURCE CODE CAN ONLY BE COMPILED FOR WINDOWS OS"
 
 #endif
+
 
 #endif
