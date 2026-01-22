@@ -1,66 +1,111 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     struct ListNode *next;
- * };
- */
-typedef struct ListNode* NodePtr_t;
-
-typedef struct
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
 {
-    NodePtr_t _head;
-    NodePtr_t _tail;
+    struct ListNode* output = l1;
 
-} LinkedList;
+    int carry = 0, sum = 0;
 
+    struct ListNode* it1 = l1;
+    struct ListNode* it2 = l2;
 
-inline static void pushBack(LinkedList* __obj , int __val , int *__carry)
-{
-    __val += *__carry;
-
-    NodePtr_t temp = (NodePtr_t) malloc(sizeof(struct ListNode));
-    temp->val = __val % 10;
-    temp->next = NULL;
-
-    if( ! __obj->_head)     __obj->_head = temp;
-
-    else                    __obj->_tail->next = temp; 
-        
-    __obj->_tail = temp;
-
-    *__carry = ( __val / 10 ) % 10;
-
-}
-
-inline static struct ListNode* addTwoNumbers(struct ListNode* __l1, struct ListNode* __l2)
-{
-    int carry = 0;
-
-    LinkedList output = {0};
-
-    while(  __l1 || __l2)
+    while( it1->next && it2->next )
     {
+        sum = it1->val + it2->val + carry;
 
-        if ( __l1 && __l2 )
+        it1->val = sum % 10;
+
+        carry = sum / 10;
+
+        it1 = it1->next;
+        it2 = it2->next;
+    }
+
+    sum = it1->val + it2->val + carry;
+
+    it1->val = sum % 10;
+
+    carry = sum / 10;
+
+    if(it1->next == NULL && it2->next == NULL)
+    {
+        if(carry)
         {
-            pushBack(&output , __l1->val + __l2->val , &carry);
-            __l1 = __l1->next;
-            __l2 = __l2->next;
+            // reusing 2nd iterator's node
+            it2->val = carry;
+
+            it1->next = it2;
+
+            it1 = it1->next;
         }
-        else if ( __l1 )
+    }
+    else if( it1->next )
+    {
+        it1 = it1->next;
+         
+        while(it1->next && carry)
         {
-            pushBack(&output , __l1->val , &carry);
-            __l1 = __l1->next;
+            sum = it1->val + carry;
+
+            it1->val = sum % 10;
+
+            carry = sum / 10;
+
+            it1 = it1->next;
         }
-        else 
+
+        sum = it1->val + carry;
+
+        it1->val = sum % 10;
+
+        carry = sum / 10;
+
+        if(carry)
         {
-            pushBack(&output , __l2->val , &carry);
-            __l2 = __l2->next;
+            // reusing 2nd iterator's node
+            it2->val = carry;
+
+            it1->next = it2;
+
+            it1 = it1->next;
+        }
+    }
+    else
+    {
+        it2 = it2->next;
+
+        while(it2->next && carry)
+        {
+            sum = it2->val + carry;
+
+            it2->val = sum % 10;
+
+            carry = sum / 10;
+
+            it1->next = it2;
+
+            it1 = it1->next;
+
+            it2 = it2->next;
+        }
+
+        sum = it2->val + carry;
+
+        it2->val = sum % 10;
+
+        carry = sum / 10;
+
+        it1->next = it2;
+
+        it1 = it1->next;
+
+        if(carry)
+        {
+            it1->next = (struct ListNode*) malloc(sizeof(struct ListNode));
+
+            it1->next->val = carry;
+
+            it1->next->next = NULL;
         }
     }
 
-    if (carry) pushBack(&output, 0 , &carry);
-    
-    return output._head;
+    return output;
 }
