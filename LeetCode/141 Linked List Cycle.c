@@ -1,28 +1,25 @@
-/*
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
 
-inline static bool hasCycle(struct ListNode *__head)
+inline bool hasCycle(struct ListNode* head)
 {
-    for(unsigned int i = 0 ; i <= 10000u ; ++i , __head = __head->next) if (! __head) return false;
+    if(!head) return NULL;
+    
+    struct ListNode* slow = head;
+    struct ListNode* fast = head->next;
 
-    return true;
-}
- 
-*/
-inline static bool hasCycle( struct ListNode *__head )
-{
-    struct ListNode* slow_ptr = __head;
-
-    struct ListNode* fast_ptr = __head->next;
-
-    while(slow_ptr && fast_ptr)
+    while (fast != NULL && fast->next != NULL)
     {
-        if (slow_ptr == fast_ptr) return true;
+        slow = slow->next;
 
-        slow_ptr = slow_ptr->next;
-        fast_ptr = fast_ptr->next;
+        fast = fast->next->next;
 
-        if ( fast_ptr ) fast_ptr = fast_ptr->next;
-        else return false;
+        if (slow == fast) return true;
     }
 
     return false;
